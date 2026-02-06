@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Arjun | Cyberpunk Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #040308;
+      --card-bg: rgba(8, 0, 16, 0.85);
+      --accent: #ff2244;
+      --accent2: #00f0ff;
+      --text-main: #f7f7f7;
+      --text-sub: #9a9a9a;
+      --radius: 28px;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background:
+        radial-gradient(circle at top, #1a0020 0, #05000a 35%, #020005 100%);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Stars / soft parallax bg */
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,0.7) 0, transparent 55%),
+        radial-gradient(2px 2px at 80% 30%, rgba(255,255,255,0.8) 0, transparent 55%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5) 0, transparent 55%),
+        radial-gradient(2px 2px at 60% 80%, rgba(255,255,255,0.7) 0, transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 3D neon grid */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255, 0, 90, 0.18) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255, 0, 90, 0.18) 2px, transparent 2px);
+      background-size: 60px 60px;
+      transform-origin: bottom;
+      transform: perspective(800px) rotateX(68deg) translateY(120px);
+      opacity: 0.25;
+      animation: gridMove 5s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 60px; }
+    }
+
+    /* Matrix rain canvas */
+    #matrix {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* Neon moving lines (vertical) */
+    .neon-line {
+      --x: 10%;
+      position: absolute;
+      width: 2px;
+      height: 160%;
+      top: -60%;
+      left: var(--x);
+      background: linear-gradient(to bottom, transparent, rgba(255,0,120,0.9), transparent);
+      filter: blur(1px);
+      opacity: 0.7;
+      animation: neonDrop 4s linear infinite;
+      z-index: 1;
+    }
+
+    .neon-line:nth-child(1) { --x: 15%; animation-delay: 0s; }
+    .neon-line:nth-child(2) { --x: 50%; animation-delay: 1s; }
+    .neon-line:nth-child(3) { --x: 80%; animation-delay: 2s; }
+
+    @keyframes neonDrop {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(60%); }
+    }
+
+    /* Neon moving lines (horizontal) */
+    .neon-line-h {
+      --y: 25%;
+      position: absolute;
+      height: 2px;
+      width: 160%;
+      left: -60%;
+      top: var(--y);
+      background: linear-gradient(to right, transparent, rgba(0,255,230,0.9), transparent);
+      filter: blur(1px);
+      opacity: 0.65;
+      animation: neonSlide 5s linear infinite;
+      z-index: 1;
+    }
+
+    .neon-line-h:nth-child(1) { --y: 25%; animation-delay: 0.5s; }
+    .neon-line-h:nth-child(2) { --y: 60%; animation-delay: 2s; }
+
+    @keyframes neonSlide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(60%); }
+    }
+
+    /* HUD circles */
+    .hud-circle,
+    .hud-circle2 {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px dashed rgba(0, 255, 255, 0.4);
+      box-shadow: 0 0 18px rgba(0, 255, 255, 0.35);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hud-circle {
+      width: 260px;
+      height: 260px;
+      top: 6%;
+      right: 10%;
+      animation: hudSpin 16s linear infinite;
+    }
+
+    .hud-circle2 {
+      width: 180px;
+      height: 180px;
+      bottom: 8%;
+      left: 8%;
+      animation: hudSpinReverse 13s linear infinite;
+    }
+
+    @keyframes hudSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes hudSpinReverse {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(-360deg); }
+    }
+
+    /* Particles */
+    #particles {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(0.5px);
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-130vh); opacity: 0; }
+    }
+
+    /* Cursor neon glow */
+    #cursorGlow {
+      position: fixed;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,0,120,0.4), transparent 70%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    /* Main content */
+    .wrapper {
+      position: relative;
+      z-index: 5;
+      padding: 40px 16px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .card {
+      width: min(480px, 100% - 32px);
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 40px 32px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      text-align: center;
+      box-shadow:
+        0 0 40px rgba(0, 0, 0, 1),
+        0 0 80px rgba(255, 0, 60, 0.55);
+      overflow: hidden;
+      animation: cardIn 0.8s ease-out forwards;
+      transform-origin: center;
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.18s ease-out;
+      will-change: transform;
+    }
+
+    /* Hologram shine */
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(255,255,255,0) 0deg,
+        rgba(255,255,255,0.18) 60deg,
+        rgba(0,255,255,0.22) 120deg,
+        rgba(255,0,120,0.22) 190deg,
+        rgba(255,255,255,0) 260deg
+      );
+      mix-blend-mode: screen;
+      opacity: 0.45;
+      animation: holoSpin 12s linear infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes holoSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes cardIn {
+      0% { opacity: 0; transform: translateY(24px) scale(0.95); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Avatar */
+    .avatar-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .avatar-ring {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(255, 0, 80, 1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 0, 80, 1),
+        rgba(180, 0, 40, 1)
+      );
+      padding: 4px;
+      filter: drop-shadow(0 0 24px rgba(255,0,90,0.9));
+      animation: pulseRing 2.6s ease-in-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,0,100,0.7); }
+      50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(255,0,100,1); }
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(1.15) contrast(1.1);
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      text-shadow:
+        0 0 14px rgba(255,255,255,0.8),
+        0 0 25px rgba(255,0,80,0.9);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-sub);
+      margin-bottom: 18px;
+      text-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .pill {
+      font-size: 11px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #f7f7f7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s, border-color .2s;
+    }
+
+    .pill:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 0, 60, 0.18);
+      border-color: rgba(255, 0, 60, 0.7);
+      box-shadow: 0 0 14px rgba(255, 0, 70, 0.65);
+    }
+
+    /* sharp neon buttons */
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 26px;
+      flex-wrap: wrap;
+    }
+
+    .btn-neon {
+      position: relative;
+      padding: 9px 22px;
+      font-size: 13px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 0, 50, 0.9);
+      background: linear-gradient(135deg, rgba(255,0,90,0.45), rgba(0,0,0,0.95));
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow .2s, transform .15s, border-color .2s, background .2s;
+      box-shadow: 0 0 18px rgba(255,0,80,0.7);
+    }
+
+    .btn-neon::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 35%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: skewX(-20deg);
+      opacity: 0;
+    }
+
+    .btn-neon:hover::before {
+      animation: shine 0.6s forwards;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(0) skewX(-20deg); opacity: 0;}
+      50% { opacity: 1;}
+      100% { transform: translateX(260%) skewX(-20deg); opacity: 0;}
+    }
+
+    .btn-neon:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 22px rgba(255,0,90,1);
+      background: linear-gradient(135deg, rgba(255,0,100,0.7), rgba(0,0,0,1));
+    }
+
+    /* ripple on click */
+    .btn-neon .ripple {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      transform: scale(0);
+      animation: ripple 0.5s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(10);
+        opacity: 0;
+      }
+    }
+
+    /* Volume */
+    .volume-block {
+      margin-bottom: 20px;
+    }
+
+    .volume-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-sub);
+      margin-bottom: 8px;
+    }
+
+    .volume-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 70%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow:
+        0 0 18px rgba(255, 0, 60, 0.95),
+        0 0 10px rgba(255,255,255,1);
+      margin-top: -6px;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      box-shadow:
+        0 0 18px rgba(255, 0, 60, 0.95),
+        0 0 10px rgba(255,255,255,1);
+      cursor: pointer;
+    }
+
+    .vol-value {
+      font-size: 11px;
+      color: var(--text-sub);
+      min-width: 34px;
+      text-align: left;
+    }
+
+    .footer {
+      font-size: 10px;
+      color: var(--text-sub);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 32px 22px 24px;
+      }
+      .title {
+        font-size: 22px;
+        letter-spacing: 3px;
+      }
+      .links {
+        gap: 10px;
+      }
+      .hud-circle,
+      .hud-circle2 {
+        opacity: 0.2;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursorGlow"></div>
+  <div class="stars"></div>
+  <div class="grid-bg"></div>
+
+  <!-- HUD circles -->
+  <div class="hud-circle"></div>
+  <div class="hud-circle2"></div>
+
+  <!-- Neon moving lines -->
+  <div class="neon-line"></div>
+  <div class="neon-line"></div>
+  <div class="neon-line"></div>
+
+  <div class="neon-line-h"></div>
+  <div class="neon-line-h"></div>
+
+  <!-- Particles -->
+  <div id="particles"></div>
+
+  <!-- Matrix -->
+  <canvas id="matrix"></canvas>
+
+  <div class="wrapper">
+    <div class="card" id="card3d">
+      <!-- Avatar -->
+      <div class="avatar-wrap">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <!-- yaha apni image link daalna -->
+            <img src="https://i.postimg.cc/R0SGwrQV/my-pic.png" alt="Profile">
+          </div>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="title">! ARJUN ?</div>
+      <div class="subtitle">Life is just a search of Peace.</div>
+
+      <!-- Tags -->
+      <div class="pill-row">
+        <span class="pill">Owner</span>
+        <span class="pill">Developer</span>
+        <span class="pill">Trusted</span>
+        <span class="pill">Nightmare</span>
+      </div>
+
+      <!-- Sharp Neon Buttons -->
+      <div class="links">
+        <a class="btn-neon" href="https://discord.gg/8JU9tYx7mN" target="_blank">Discord</a>
+        <a class="btn-neon" href="https://www.instagram.com/arjunnn021/" target="_blank">Instagram</a>
+        <a class="btn-neon" href="https://www.youtube.com/@gamingarjun368" target="_blank">YouTube</a>
+      </div>
+
+      <!-- Volume + Music -->
+      <div class="volume-block">
+        <div class="volume-label">Volume</div>
+        <div class="volume-row">
+          <input id="volumeRange" type="range" min="0" max="100" value="60">
+          <span class="vol-value" id="volValue">60%</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        © 2026 ARJUN | ON TOP
+      </div>
+    </div>
+  </div>
+
+  <!-- Music -->
+  <audio id="bgMusic" src="music.mp3" loop></audio>
+
+  <script>
+    /* ===== Music Volume ===== */
+    const music = document.getElementById('bgMusic');
+    const range = document.getElementById('volumeRange');
+    const valLabel = document.getElementById('volValue');
+    music.volume = range.value / 100;
+
+    window.addEventListener('load', () => {
+      music.play().catch(() => {});
+    });
+
+    range.addEventListener('input', () => {
+      const v = range.value;
+      valLabel.textContent = v + '%';
+      music.volume = v / 100;
+      if (music.paused) {
+        music.play().catch(() => {});
+      }
+    });
+
+    // ripple effect on neon buttons
+    document.querySelectorAll('.btn-neon').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
+      });
+    });
+
+    /* === Multi Color Particle Generator === */
+    const particleColors = [
+      "rgba(255,0,80,0.9)",   // red
+      "rgba(0,200,255,0.9)",  // cyan
+      "rgba(170,0,255,0.9)",  // purple
+      "rgba(0,255,120,0.9)"   // neon green
+    ];
+
+    const pContainer = document.getElementById("particles");
+
+    function spawnParticle() {
+      const p = document.createElement("span");
+      p.classList.add("particle");
+
+      const size = Math.random() * 4 + 2;
+      p.style.width = size + "px";
+      p.style.height = size + "px";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.bottom = "-20px";
+      p.style.background = particleColors[Math.floor(Math.random() * particleColors.length)];
+
+      const duration = Math.random() * 4 + 4;
+      p.style.animationDuration = duration + "s";
+
+      pContainer.appendChild(p);
+      setTimeout(() => p.remove(), duration * 1000);
+    }
+
+    setInterval(spawnParticle, 120);
+
+    /* === Matrix Rain === */
+    const c = document.getElementById("matrix");
+    const ctx = c.getContext("2d");
+
+    function resizeMatrix() {
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+    }
+    resizeMatrix();
+    window.addEventListener("resize", resizeMatrix);
+
+    const letters = "01ARJUN#@$%&";
+    const fontSize = 14;
+    let columns = Math.floor(c.width / fontSize);
+    let drops = new Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0,0,0,0.08)";
+      ctx.fillRect(0, 0, c.width, c.height);
+
+      ctx.fillStyle = "#00ff99";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > c.height && Math.random() > 0.96) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 40);
+
+    /* === Cursor Glow Follow === */
+    const glow = document.getElementById("cursorGlow");
+    document.addEventListener("mousemove", (e) => {
+      glow.style.left = e.clientX + "px";
+      glow.style.top = e.clientY + "px";
+    });
+
+    /* === 3D Tilt on Card === */
+    const card = document.getElementById("card3d");
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+      const rotateX = (-y * 10).toFixed(2);
+      const rotateY = (x * 10).toFixed(2);
+
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(0) scale(1)`;
+    });
+
+    document.addEventListener("mouseleave", () => {
+      card.style.transform = "rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+    });
+
+  </script>
+</body>
+</html>
